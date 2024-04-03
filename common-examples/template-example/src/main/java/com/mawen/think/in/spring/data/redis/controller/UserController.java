@@ -24,29 +24,29 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
 	@Autowired
-	private RedisTemplate<String, User> redisTemplate;
+	private RedisTemplate<Long, User> redisTemplate;
 
 	//================================================================================================
 	// Template
 	//================================================================================================
 
 	@PutMapping("/{key}")
-	public void save(@PathVariable String key, @RequestBody User user) {
+	public void save(@PathVariable Long key, @RequestBody User user) {
 		redisTemplate.opsForValue().set(key, user);
 	}
 
 	@GetMapping("/{key}")
-	public User get(@PathVariable String key) {
+	public User get(@PathVariable Long key) {
 		return redisTemplate.opsForValue().get(key);
 	}
 
 	@GetMapping("/")
-	public List<User> list(@RequestParam List<String> keys) {
+	public List<User> list(@RequestParam List<Long> keys) {
 		return redisTemplate.opsForValue().multiGet(keys);
 	}
 
 	@DeleteMapping("/{key}")
-	public Boolean delete(@PathVariable String key) {
+	public Boolean delete(@PathVariable Long key) {
 		return redisTemplate.delete(key);
 	}
 }

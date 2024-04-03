@@ -31,4 +31,8 @@ public interface ListFunction<T, R> extends SingleFunction<List<T>, List<R>> {
 			return Stream.of(cacheResult, dbResult).filter(Objects::nonNull).flatMap(Collection::stream).toList();
 		};
 	}
+
+	static <T, R> Function<List<T>, List<R>> of(ListFunction<T, R> getter, Function<List<T>, List<R>> fallbackGetter, Function<R, T> uniqueKeyGetter) {
+		return getter.compose(fallbackGetter, uniqueKeyGetter);
+	}
 }
