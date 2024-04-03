@@ -1,6 +1,7 @@
 package com.mawen.think.in.spring.data.redis.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.mawen.think.in.spring.data.redis.pojo.User;
 import lombok.RequiredArgsConstructor;
@@ -41,9 +42,9 @@ public class UserService {
 		return redisTemplate.opsForValue().get(key);
 	}
 
-	public List<User> list(List<String> keys) {
+	public List<User> list(List<Long> keys) {
 		log.info("Enter UserService#list method...");
-		return redisTemplate.opsForValue().multiGet(keys);
+		return redisTemplate.opsForValue().multiGet(keys.stream().map(String::valueOf).toList());
 	}
 
 	@CacheEvict(value = "user")

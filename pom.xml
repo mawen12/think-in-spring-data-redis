@@ -10,10 +10,6 @@
     <description>Think of Spring Data Redis</description>
     <modules>
         <module>common-examples</module>
-        <module>common-examples/repo-example</module>
-        <module>common-examples/template-example</module>
-        <module>common-examples/annotation-example</module>
-        <module>common-examples/function-annotation-example</module>
     </modules>
     <packaging>pom</packaging>
 

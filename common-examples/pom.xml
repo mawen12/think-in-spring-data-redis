@@ -18,6 +18,12 @@
 
     <artifactId>common-examples</artifactId>
     <packaging>pom</packaging>
+    <modules>
+        <module>template-example</module>
+        <module>repo-example</module>
+        <module>annotation-example</module>
+        <module>function-example</module>
+    </modules>
 
     <dependencies>
         <dependency>

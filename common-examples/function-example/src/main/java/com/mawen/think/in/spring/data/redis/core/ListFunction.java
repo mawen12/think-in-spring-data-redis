@@ -13,7 +13,7 @@ import java.util.stream.Stream;
  * @since 2024/4/3
  */
 @FunctionalInterface
-public interface ListFunction<T, R> extends Function<List<T>, List<R>> {
+public interface ListFunction<T, R> extends SingleFunction<List<T>, List<R>> {
 
 	default Function<List<T>, List<R>> compose(Function<List<T>, List<R>> fallbackGetter, Function<R, T> uniqueKeyGetter) {
 		return ts -> {

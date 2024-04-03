@@ -10,9 +10,9 @@ import org.springframework.cache.annotation.EnableCaching;
  */
 @EnableCaching // Enabled Cache Annotation
 @SpringBootApplication
-public class FunctionAnnotationApp {
+public class FunctionApp {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FunctionAnnotationApp.class, args);
+		SpringApplication.run(FunctionApp.class, args);
 	}
 }
