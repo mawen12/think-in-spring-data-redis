@@ -110,7 +110,7 @@ public class Demo1 {
 	}
 
 	public static void fun6(List<Long> ids) {
-		CacheableListFunction<Long, User> cacheGetter = Demo1::findInCache;
+		ListFunction<Long, User> cacheGetter = Demo1::findInCache;
 
 		Function<List<Long>, List<User>> wrapperFunction = cacheGetter.compose(dbGetter, idGetter);
 

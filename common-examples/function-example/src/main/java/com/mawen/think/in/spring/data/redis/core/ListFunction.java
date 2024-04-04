@@ -35,4 +35,9 @@ public interface ListFunction<T, R> extends SingleFunction<List<T>, List<R>> {
 	static <T, R> Function<List<T>, List<R>> of(ListFunction<T, R> getter, Function<List<T>, List<R>> fallbackGetter, Function<R, T> uniqueKeyGetter) {
 		return getter.compose(fallbackGetter, uniqueKeyGetter);
 	}
+
+	static <T, R> Function<List<T>, List<R>> ofMap(Function<List<T>, List<R>> fallbackGetter, Function<R, T> uniqueKeyGetter) {
+		MapCacheListFunction<T, R> listFunction = new MapCacheListFunction<>() {};
+		return of(listFunction,fallbackGetter,uniqueKeyGetter);
+	}
 }
