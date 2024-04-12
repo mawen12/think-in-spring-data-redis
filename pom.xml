@@ -10,6 +10,8 @@
     <description>Think of Spring Data Redis</description>
     <modules>
         <module>common-examples</module>
+        <module>client-examples</module>
+        <module>client-examples/jedis-examples</module>
     </modules>
     <packaging>pom</packaging>
 
