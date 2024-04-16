@@ -12,6 +12,7 @@
         <module>common-examples</module>
         <module>client-examples</module>
         <module>client-examples/jedis-examples</module>
+        <module>usecase-examples</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -37,4 +38,20 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.13.0</version>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>

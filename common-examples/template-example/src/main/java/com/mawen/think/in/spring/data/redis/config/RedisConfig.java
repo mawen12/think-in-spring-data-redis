@@ -1,6 +1,5 @@
 package com.mawen.think.in.spring.data.redis.config;
 
-import com.fasterxml.jackson.databind.ser.std.NumberSerializers;
 import com.mawen.think.in.spring.data.redis.pojo.User;
 import com.mawen.think.in.spring.data.redis.serializer.LongRedisSerializer;
 import lombok.extern.slf4j.Slf4j;
