@@ -13,6 +13,8 @@
         <module>client-examples</module>
         <module>client-examples/jedis-examples</module>
         <module>usecase-examples</module>
+        <module>advanced-examples</module>
+        <module>advanced-examples/batchable-example</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -53,5 +55,12 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 </project>
