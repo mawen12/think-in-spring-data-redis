@@ -14,5 +14,5 @@ public abstract class CacheableListFunction<T, R> implements ListFunction<T, R> 
 		return ListFunction.super.compose(fallbackGetter.andThen(ret -> cache(ret,uniqueKeyGetter)), uniqueKeyGetter);
 	}
 
-	abstract List<R> cache(List<R> ts, Function<R, T> uniqueKeyGetter);
+	public abstract List<R> cache(List<R> ts, Function<R, T> uniqueKeyGetter);
 }

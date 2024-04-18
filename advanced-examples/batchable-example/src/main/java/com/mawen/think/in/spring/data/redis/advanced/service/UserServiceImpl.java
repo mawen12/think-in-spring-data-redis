@@ -1,16 +1,14 @@
 package com.mawen.think.in.spring.data.redis.advanced.service;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.mawen.think.in.spring.data.redis.advanced.annotation.BatchCacheable;
 import com.mawen.think.in.spring.data.redis.advanced.pojo.User;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,13 +19,18 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Primary
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
-	@Autowired
-	private RedisTemplate<String, String> redisTemplate;
+	public static Set<User> users = Set.of(
+			new User(1L, "mawen", 10),
+			new User(2L, "Bob", 15),
+			new User(3L, "Luce", 30),
+			new User(4L, "Lucy", 65),
+			new User(5L, "Jack", 70)
+	);
 
-	@BatchCacheable
+	@BatchCacheable(key = "mawen", argIndex = 0)
 	public List<User> getUser(List<Long> ids) {
-		return List.of();
+		return users.stream().filter(user -> ids.contains(user.getId())).collect(Collectors.toList());
 	}
 }
