@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.mawen.think.in.spring.data.redis.advanced.annotation.BatchCacheable;
+import com.mawen.think.in.spring.data.redis.advanced.pojo.IBase;
 import com.mawen.think.in.spring.data.redis.advanced.pojo.User;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,7 +30,7 @@ public class UserServiceImpl implements UserService {
 			new User(5L, "Jack", 70)
 	);
 
-	@BatchCacheable(key = "mawen", argIndex = 0)
+	@BatchCacheable(key = "mawen", argIndex = 0, type = IBase.class)
 	public List<User> getUser(List<Long> ids) {
 		return users.stream().filter(user -> ids.contains(user.getId())).collect(Collectors.toList());
 	}

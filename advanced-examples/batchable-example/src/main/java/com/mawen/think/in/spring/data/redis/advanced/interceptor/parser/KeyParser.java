@@ -7,9 +7,11 @@ import java.util.function.Function;
  * @author <a href="1181963012mw@gmail.com">mawen12</a>
  * @since 2024/4/18
  */
-public interface TypeParser<T> {
+public interface KeyParser<T, U> {
 
 	boolean canParse(Type type);
 
 	Function<T, String> parse();
+
+	Function<T, U> rawParse();
 }

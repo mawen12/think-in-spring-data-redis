@@ -6,10 +6,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import com.mawen.think.in.spring.data.redis.advanced.interceptor.function.RedisCacheStringStringListFunction;
-import com.mawen.think.in.spring.data.redis.advanced.interceptor.holder.ParametersValueHolder;
-import com.mawen.think.in.spring.data.redis.advanced.interceptor.support.BatchCacheableMethodInfo;
-import com.mawen.think.in.spring.data.redis.core.ListFunction;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -32,10 +28,6 @@ public class BatchCacheableAspect {
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
 
-	private Function<Collection<String>, List<String>> redisMultiGetter = keys -> redisTemplate.opsForValue().multiGet(keys);
-	private Consumer<Map<String, String>> redisMultiSetter = map -> redisTemplate.opsForValue().multiSet(map);
-
-
 	@Pointcut("@annotation(com.mawen.think.in.spring.data.redis.advanced.annotation.BatchCacheable)")
 	public void batchCacheableAnnotation() {
 	}
@@ -47,31 +39,11 @@ public class BatchCacheableAspect {
 	@Around(value = "batchCacheableAnnotation()")
 	public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
 		if (log.isTraceEnabled()) {
-			log.trace("Info BatchCacheableAspect#around...");
+			log.trace("Into BatchCacheableAspect......");
 		}
 
-		BatchCacheableMethodInfo methodInfo = new BatchCacheableMethodInfo(joinPoint);
-		if (!methodInfo.isValid()) {
-			return joinPoint.proceed();
-		}
+		RedisCacheInvoker<Object> invoker = new RedisCacheInvoker<>(joinPoint, redisTemplate);
 
-		ParametersValueHolder parametersValue = new ParametersValueHolder(joinPoint.getArgs(), methodInfo.getCacheParamIndex(), methodInfo.getRawCacheParamType());
-		List<String> paramKeys = parametersValue.collectCacheKeys();
-
-		RedisCacheStringStringListFunction<Object> redisCacheGetter = new RedisCacheStringStringListFunction<>(redisMultiGetter, redisMultiSetter, (Class<Object>) methodInfo.getRawReturnType(), key -> methodInfo.getAnnotationKey() + ":" + key);
-		Function<List<String>, List<Object>> methodCall = keys -> {
-			try {
-				Object result = joinPoint.proceed(parametersValue.getMergedArgs(keys));
-				return methodInfo.parseResult(result);
-			}
-			catch (Throwable e) {
-				throw new RuntimeException(e);
-			}
-		};
-
-		Function<List<String>, List<Object>> cacheFunction = ListFunction.of(redisCacheGetter, methodCall, methodInfo.getElementKey().getKeyGetter());
-
-		return cacheFunction.apply(paramKeys);
+		return invoker.invoke();
 	}
-
 }

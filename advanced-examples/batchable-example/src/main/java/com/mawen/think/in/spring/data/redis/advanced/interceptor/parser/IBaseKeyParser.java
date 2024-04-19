@@ -9,10 +9,8 @@ import com.mawen.think.in.spring.data.redis.advanced.pojo.IBase;
  * @author <a href="1181963012mw@gmail.com">mawen12</a>
  * @since 2024/4/18
  */
-public enum IBaseTypeParser implements TypeParser<IBase> {
+public enum IBaseKeyParser implements KeyParser<IBase, Long> {
 	INSTANCE;
-
-	private static final Function<IBase, Long> idGetter = IBase::getId;
 
 	@Override
 	public boolean canParse(Type type) {
@@ -21,11 +19,16 @@ public enum IBaseTypeParser implements TypeParser<IBase> {
 
 	@Override
 	public Function<IBase, String> parse() {
-		return idGetter.andThen(String::valueOf);
+		return rawParse().andThen(String::valueOf);
+	}
+
+	@Override
+	public Function<IBase, Long> rawParse() {
+		return IBase::getId;
 	}
 
 	@Override
 	public String toString() {
-		return IBaseTypeParser.class.getSimpleName();
+		return IBaseKeyParser.class.getSimpleName();
 	}
 }

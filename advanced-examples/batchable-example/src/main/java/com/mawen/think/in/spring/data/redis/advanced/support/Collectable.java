@@ -1,4 +1,4 @@
-package com.mawen.think.in.spring.data.redis.advanced.interceptor.support;
+package com.mawen.think.in.spring.data.redis.advanced.support;
 
 import java.util.List;
 import java.util.Set;

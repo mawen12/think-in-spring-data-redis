@@ -1,18 +1,10 @@
 package com.mawen.think.in.spring.data.redis.advanced.interceptor.support;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import com.mawen.think.in.spring.data.redis.advanced.annotation.BatchCacheable;
-import com.mawen.think.in.spring.data.redis.advanced.interceptor.parser.TypeParserRunner;
-import lombok.Data;
 import lombok.Getter;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.reflect.MethodSignature;
 
 import org.springframework.data.util.Lazy;
 
@@ -21,68 +13,38 @@ import org.springframework.data.util.Lazy;
  * @since 2024/4/18
  */
 @Getter
-public class BatchCacheableMethodInfo {
+public class BatchCacheableMethodInfo<T> {
 
-	private Method method;
+	private final Method method;
 
-	private BatchCacheable batchCacheable;
+	private final BatchCacheable batchCacheable;
 
-	private int cacheParamIndex;
+	private final BatchCacheableParamInfo paramInfo;
 
-	private Class<?> cacheParamType;
+	private final BatchCacheableReturnInfo<T> returnInfo;
 
-	private Class<?> rawCacheParamType;
-
-	private Class<?> returnType;
-
-	private Class<?> rawReturnType;
-
-	private Lazy<Boolean> validFlag;
-
-	private ElementKey<Object> elementKey;
+	private final Lazy<Boolean> validFlag;
 
 
-	public BatchCacheableMethodInfo(ProceedingJoinPoint joinPoint) {
-
-		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-		this.method = signature.getMethod();
-
+	public BatchCacheableMethodInfo(Method method) {
+		this.method = method;
 		this.batchCacheable = method.getAnnotation(BatchCacheable.class);
-		this.cacheParamIndex = extractCacheParamIndex();
-
-		this.cacheParamType = cacheParamIndex != -1 ? method.getParameterTypes()[cacheParamIndex] : null;
-		this.rawCacheParamType = cacheParamIndex != -1 ? extractActualType(method.getGenericParameterTypes()[cacheParamIndex]) : null;
-
-		this.returnType = method.getReturnType();
-		this.rawReturnType = extractActualType(method.getGenericReturnType());
+		this.paramInfo = new BatchCacheableParamInfo(method, extractCacheParamIndex());
+		this.returnInfo = new BatchCacheableReturnInfo<>(method, batchCacheable.type());
 
 		this.validFlag = Lazy.of(this::getValidFlag);
-
-		this.elementKey = new ElementKey<>(batchCacheable, (Class)rawReturnType, TypeParserRunner.RUNNER.parse(rawReturnType));
-	}
-
-	public boolean isValid() {
-		return validFlag.get();
 	}
 
 	public String getAnnotationKey() {
 		return batchCacheable.key();
 	}
 
-	public List<Object> parseResult(Object result) {
-		if (result == null) {
-			return new ArrayList<>();
-		}
-
-		return (List<Object>)result;
+	public List<T> parseResult(Object result) {
+		return result != null ? (List<T>)result : null;
 	}
 
-	private Class<?> extractActualType(Type type) {
-		if (type instanceof ParameterizedType parameterizedType) {
-			Type actualType = parameterizedType.getActualTypeArguments()[0];
-			return (Class<?>) actualType;
-		}
-		return null;
+	public boolean isValid() {
+		return validFlag.get();
 	}
 
 	private int extractCacheParamIndex() {
@@ -92,8 +54,6 @@ public class BatchCacheableMethodInfo {
 	}
 
 	private boolean getValidFlag() {
-		return Collection.class.isAssignableFrom(returnType)
-				&& cacheParamIndex != -1
-				&& TypeParserRunner.RUNNER.canParse(rawReturnType);
+		return paramInfo.isValid() && returnInfo.isValid() ;
 	}
 }

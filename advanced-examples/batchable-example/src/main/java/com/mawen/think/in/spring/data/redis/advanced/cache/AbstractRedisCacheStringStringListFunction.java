@@ -1,10 +1,9 @@
-package com.mawen.think.in.spring.data.redis.advanced.interceptor.function;
+package com.mawen.think.in.spring.data.redis.advanced.cache;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -53,5 +52,7 @@ public abstract class AbstractRedisCacheStringStringListFunction<U> extends Cach
 
 	abstract <T> BiFunction<String, Class<U>, U> deserializerGetter();
 
-	abstract Function<String, String> formatKey();
+	Function<String, String> formatKey() {
+		return Function.identity();
+	}
 }

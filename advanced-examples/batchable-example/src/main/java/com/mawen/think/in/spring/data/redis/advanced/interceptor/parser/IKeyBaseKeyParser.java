@@ -10,10 +10,8 @@ import com.mawen.think.in.spring.data.redis.advanced.pojo.IKeyBase;
  * @author <a href="1181963012mw@gmail.com">mawen12</a>
  * @since 2024/4/18
  */
-public enum IKeyBaseTypeParser implements TypeParser<IKeyBase<Serializable>> {
+public enum IKeyBaseKeyParser implements KeyParser<IKeyBase<Serializable>, Serializable> {
 	INSTANCE;
-
-	private static final Function<IKeyBase<Serializable>, Serializable> keyGetter = IKeyBase::getKey;
 
 	@Override
 	public boolean canParse(Type type) {
@@ -22,7 +20,12 @@ public enum IKeyBaseTypeParser implements TypeParser<IKeyBase<Serializable>> {
 
 	@Override
 	public Function<IKeyBase<Serializable>, String> parse() {
-		return keyGetter.andThen(String::valueOf);
+		return rawParse().andThen(String::valueOf);
+	}
+
+	@Override
+	public Function<IKeyBase<Serializable>, Serializable> rawParse() {
+		return IKeyBase::getKey;
 	}
 
 	@Override

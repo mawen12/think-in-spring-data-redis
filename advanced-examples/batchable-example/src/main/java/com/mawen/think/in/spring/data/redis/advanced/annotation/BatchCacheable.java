@@ -21,4 +21,6 @@ public @interface BatchCacheable {
 	String key() default "";
 
 	int argIndex() default 0;
+
+	Class<?> type();
 }

@@ -1,13 +1,12 @@
-package com.mawen.think.in.spring.data.redis.advanced.interceptor.holder;
+package com.mawen.think.in.spring.data.redis.advanced.interceptor.support;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import com.mawen.think.in.spring.data.redis.advanced.interceptor.support.Collectable;
+import com.mawen.think.in.spring.data.redis.advanced.support.Collectable;
 import lombok.Data;
 
 import org.springframework.core.convert.converter.Converter;
@@ -22,35 +21,27 @@ public class ParametersValueHolder implements Collectable, Converter<Object, Str
 
 	private Object[] args;
 
-	private int cacheParamIndex;
-
-	private Class<?> rawCacheParamType;
+	private BatchCacheableParamInfo paramInfo;
 
 	private Collection<?> sourceCacheParamValue;
 
 
-	public ParametersValueHolder(Object[] args, int cacheParamIndex, Class<?> rawCacheParamType) {
+	public ParametersValueHolder(Object[] args, BatchCacheableParamInfo paramInfo) {
 		this.args = args;
-		this.cacheParamIndex = cacheParamIndex;
-		this.rawCacheParamType = rawCacheParamType;
-		this.sourceCacheParamValue = (Collection<?>) args[cacheParamIndex];
+		this.paramInfo = paramInfo;
+		this.sourceCacheParamValue = (Collection<?>) args[paramInfo.getParamIndex()];
 	}
 
-	public List<String> collectCacheKeys() {
+
+	public List<String> getKeys() {
 		return collectToList(sourceCacheParamValue.stream().map(this::convert));
 	}
 
 	public Object[] getMergedArgs(List<String> newArg) {
 		Set<String> keys = new HashSet<>(newArg);
-		Iterator<?> iterator = sourceCacheParamValue.iterator();
-		while (iterator.hasNext()) {
-			Object key = iterator.next();
-			if (!keys.contains(convert(key))) {
-				iterator.remove();
-			}
-		}
+		sourceCacheParamValue.removeIf(key -> !keys.contains(convert(key)));
 
-		this.args[cacheParamIndex] = sourceCacheParamValue;
+		this.args[paramInfo.getParamIndex()] = sourceCacheParamValue;
 		return this.args;
 	}
 

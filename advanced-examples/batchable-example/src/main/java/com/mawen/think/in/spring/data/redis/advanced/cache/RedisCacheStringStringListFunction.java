@@ -1,4 +1,4 @@
-package com.mawen.think.in.spring.data.redis.advanced.interceptor.function;
+package com.mawen.think.in.spring.data.redis.advanced.cache;
 
 import java.util.Collection;
 import java.util.List;
@@ -15,7 +15,7 @@ import com.mawen.think.in.spring.data.redis.advanced.util.JsonUtil;
  */
 public class RedisCacheStringStringListFunction<U> extends AbstractRedisCacheStringStringListFunction<U> {
 
-	private Function<String, String> keyConverter;
+	private final Function<String, String> keyConverter;
 
 	public RedisCacheStringStringListFunction(Function<Collection<String>, List<String>> redisMGetter,
 			Consumer<Map<String, String>> redisMSetter,
