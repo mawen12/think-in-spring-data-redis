@@ -14,7 +14,7 @@ import lombok.Getter;
  * @since 2024/4/19
  */
 @Getter
-public class BatchCacheableReturnInfo<T> {
+class BatchCacheableReturnInfo<T> {
 
 	private final Class<?> returnType;
 
@@ -22,7 +22,8 @@ public class BatchCacheableReturnInfo<T> {
 
 	private final KeyParser<T, ?> keyParser;
 
-	public BatchCacheableReturnInfo(Method method, Class<?> batchCacheableType) {
+
+	BatchCacheableReturnInfo(Method method, Class<?> batchCacheableType) {
 		this.returnType = method.getReturnType();
 		this.rawReturnType = extractActualType(method.getGenericReturnType());
 
@@ -39,7 +40,6 @@ public class BatchCacheableReturnInfo<T> {
 		return Collection.class.isAssignableFrom(returnType)
 				&& keyParser != null && keyParser.canParse(rawReturnType);
 	}
-
 
 	private Class<T> extractActualType(Type type) {
 		if (type instanceof ParameterizedType parameterizedType) {

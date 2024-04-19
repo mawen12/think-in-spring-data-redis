@@ -34,10 +34,11 @@ public abstract class AbstractRedisCacheStringStringListFunction<U> extends Cach
 
 	@Override
 	public List<U> apply(List<String> keys) {
-		return redisMGetter.apply(keys)
+		List<String> formatedKeys = keys.stream().map(formatKey()).collect(Collectors.toList());
+
+		return redisMGetter.apply(formatedKeys)
 				.stream()
 				.filter(Objects::nonNull)
-				.map(formatKey())
 				.map(key -> deserializerGetter().apply(key, uClass))
 				.collect(Collectors.toList());
 	}

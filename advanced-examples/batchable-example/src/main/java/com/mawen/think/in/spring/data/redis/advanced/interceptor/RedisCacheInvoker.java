@@ -56,13 +56,13 @@ public class RedisCacheInvoker<R> {
 		Function<BatchCacheableMethodInfo<R>, RedisCacheStringStringListFunction<R>> redisCacheGetter = batchCacheableMethodInfo -> new RedisCacheStringStringListFunction<>(
 				keys -> redisTemplate.opsForValue().multiGet(keys),
 				map -> redisTemplate.opsForValue().multiSet(map),
-				batchCacheableMethodInfo.getReturnInfo().getRawReturnType(),
+				batchCacheableMethodInfo.getRawReturnType(),
 				key -> batchCacheableMethodInfo.getAnnotationKey() + ":" + key
 		);
 
 		ListFunction<String, R> redisCacheFunction = redisCacheGetter.apply(methodInfo);
 
-		return ListFunction.of(redisCacheFunction, methodCall, methodInfo.getReturnInfo().getKeyParser().parse())
+		return ListFunction.of(redisCacheFunction, methodCall, methodInfo.getKeyParser().parse())
 				.apply(parametersValueHolder.getKeys());
 	}
 }

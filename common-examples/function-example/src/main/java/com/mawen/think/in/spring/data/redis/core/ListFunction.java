@@ -8,6 +8,10 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author <a href="1181963012mw@gmail.com">mawen12</a>
  * @since 2024/4/3
@@ -15,11 +19,16 @@ import java.util.stream.Stream;
 @FunctionalInterface
 public interface ListFunction<T, R> extends SingleFunction<List<T>, List<R>> {
 
+	Logger log = LoggerFactory.getLogger(ListFunction.class);
+
 	default Function<List<T>, List<R>> compose(Function<List<T>, List<R>> fallbackGetter, Function<R, T> uniqueKeyGetter) {
 		return ts -> {
 			List<R> cacheResult = apply(ts);
 
 			if (cacheResult.size() == ts.size()) {
+				if (log.isTraceEnabled()) {
+					log.trace("");
+				}
 				return cacheResult;
 			}
 

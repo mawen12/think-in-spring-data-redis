@@ -13,7 +13,7 @@ import org.springframework.data.util.Lazy;
  * @since 2024/4/18
  */
 @Data
-public class BatchCacheableParamInfo {
+class BatchCacheableParamInfo {
 
 	private final int paramIndex;
 
@@ -21,24 +21,16 @@ public class BatchCacheableParamInfo {
 
 	private final Class<?> rawCacheParamType;
 
-	private Lazy<Boolean> validFlag;
-
-
-	public BatchCacheableParamInfo(Method method, int cacheParamIndex) {
+	BatchCacheableParamInfo(Method method, int cacheParamIndex) {
 		Class<?> cacheParamType = cacheParamIndex != -1 ? method.getParameterTypes()[cacheParamIndex] : null;
 		Class<?> rawCacheParamType = cacheParamIndex != -1 ? extractActualType(method.getGenericParameterTypes()[cacheParamIndex]) : null;
 
 		this.paramIndex = cacheParamIndex;
 		this.paramType = cacheParamType;
 		this.rawCacheParamType = rawCacheParamType;
-		this.validFlag = Lazy.of(this::getValidFlag);
 	}
 
 	public boolean isValid() {
-		return validFlag.get();
-	}
-
-	private boolean getValidFlag() {
 		return paramIndex != -1;
 	}
 
