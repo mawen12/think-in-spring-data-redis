@@ -1,4 +1,4 @@
-package com.mawen.think.in.spring.data.redis.advanced.annotation;
+package com.mawen.think.in.spring.data.redis.advanced.core.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -8,10 +8,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.concurrent.TimeUnit;
 
+import com.mawen.think.in.spring.data.redis.advanced.core.interceptor.BatchCacheableAspect;
+
 /**
  * @author <a href="1181963012mw@gmail.com">mawen12</a>
  * @since 2024/4/17
- * @see com.mawen.think.in.spring.data.redis.advanced.interceptor.BatchCacheableAspect
+ * @see BatchCacheableAspect
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

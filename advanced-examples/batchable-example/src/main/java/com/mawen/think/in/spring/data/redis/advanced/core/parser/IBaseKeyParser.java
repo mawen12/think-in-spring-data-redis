@@ -1,4 +1,4 @@
-package com.mawen.think.in.spring.data.redis.advanced.interceptor.parser;
+package com.mawen.think.in.spring.data.redis.advanced.core.parser;
 
 import java.lang.reflect.Type;
 import java.util.function.Function;

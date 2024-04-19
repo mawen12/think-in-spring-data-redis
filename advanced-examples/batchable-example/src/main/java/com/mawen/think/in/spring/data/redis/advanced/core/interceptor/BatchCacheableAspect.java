@@ -1,4 +1,4 @@
-package com.mawen.think.in.spring.data.redis.advanced.interceptor;
+package com.mawen.think.in.spring.data.redis.advanced.core.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -22,7 +22,7 @@ public class BatchCacheableAspect {
 	@Autowired
 	private StringRedisTemplate redisTemplate;
 
-	@Pointcut("@annotation(com.mawen.think.in.spring.data.redis.advanced.annotation.BatchCacheable)")
+	@Pointcut("@annotation(com.mawen.think.in.spring.data.redis.advanced.core.annotation.BatchCacheable)")
 	public void batchCacheableAnnotation() {
 	}
 

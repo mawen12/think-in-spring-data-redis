@@ -1,4 +1,4 @@
-package com.mawen.think.in.spring.data.redis.advanced.cache;
+package com.mawen.think.in.spring.data.redis.advanced.core.cache;
 
 import java.util.Collection;
 import java.util.List;

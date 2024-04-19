@@ -1,12 +1,12 @@
-package com.mawen.think.in.spring.data.redis.advanced.interceptor.support;
+package com.mawen.think.in.spring.data.redis.advanced.core.domain;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
 
-import com.mawen.think.in.spring.data.redis.advanced.interceptor.TypeParserRunner;
-import com.mawen.think.in.spring.data.redis.advanced.interceptor.parser.KeyParser;
+import com.mawen.think.in.spring.data.redis.advanced.core.interceptor.TypeParserRunner;
+import com.mawen.think.in.spring.data.redis.advanced.core.parser.KeyParser;
 import lombok.Getter;
 
 /**

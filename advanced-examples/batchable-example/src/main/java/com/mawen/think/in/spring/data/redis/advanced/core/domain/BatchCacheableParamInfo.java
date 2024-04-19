@@ -1,12 +1,10 @@
-package com.mawen.think.in.spring.data.redis.advanced.interceptor.support;
+package com.mawen.think.in.spring.data.redis.advanced.core.domain;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 import lombok.Data;
-
-import org.springframework.data.util.Lazy;
 
 /**
  * @author <a href="1181963012mw@gmail.com">mawen12</a>
@@ -19,15 +17,15 @@ class BatchCacheableParamInfo {
 
 	private final Class<?> paramType;
 
-	private final Class<?> rawCacheParamType;
+	private final Class<?> rawParamType;
 
 	BatchCacheableParamInfo(Method method, int cacheParamIndex) {
 		Class<?> cacheParamType = cacheParamIndex != -1 ? method.getParameterTypes()[cacheParamIndex] : null;
-		Class<?> rawCacheParamType = cacheParamIndex != -1 ? extractActualType(method.getGenericParameterTypes()[cacheParamIndex]) : null;
+		Class<?> rawParamType = cacheParamIndex != -1 ? extractActualType(method.getGenericParameterTypes()[cacheParamIndex]) : null;
 
 		this.paramIndex = cacheParamIndex;
 		this.paramType = cacheParamType;
-		this.rawCacheParamType = rawCacheParamType;
+		this.rawParamType = rawParamType;
 	}
 
 	public boolean isValid() {

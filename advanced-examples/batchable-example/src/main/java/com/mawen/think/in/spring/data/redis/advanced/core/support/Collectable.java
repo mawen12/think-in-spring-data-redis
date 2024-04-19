@@ -1,7 +1,8 @@
-package com.mawen.think.in.spring.data.redis.advanced.support;
+package com.mawen.think.in.spring.data.redis.advanced.core.support;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -31,5 +32,9 @@ public interface Collectable {
 
 	default <U> Set<U> collectToSet(Stream<U> stream) {
 		return collect(stream, Collectors.toSet());
+	}
+
+	default <U> void forEach(Stream<U> stream, Consumer<U> action) {
+		stream.forEach(action);
 	}
 }

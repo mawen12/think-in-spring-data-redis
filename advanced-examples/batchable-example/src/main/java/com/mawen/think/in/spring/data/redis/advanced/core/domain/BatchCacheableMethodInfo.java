@@ -1,11 +1,11 @@
-package com.mawen.think.in.spring.data.redis.advanced.interceptor.support;
+package com.mawen.think.in.spring.data.redis.advanced.core.domain;
 
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import com.mawen.think.in.spring.data.redis.advanced.annotation.BatchCacheable;
-import com.mawen.think.in.spring.data.redis.advanced.interceptor.parser.KeyParser;
+import com.mawen.think.in.spring.data.redis.advanced.core.annotation.BatchCacheable;
+import com.mawen.think.in.spring.data.redis.advanced.core.parser.KeyParser;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -67,7 +67,7 @@ public class BatchCacheableMethodInfo<T> {
 		if (log.isTraceEnabled()) {
 			boolean paramValid = paramInfo.isValid();
 			if (!paramValid) {
-				log.trace("Method [{}] has invalid parameters index[{}]", methodShortName, paramInfo.getParamIndex());
+				log.trace("Method [{}] has invalid parameters index [{}]", methodShortName, batchCacheable.argIndex());
 			}
 			boolean returnValid = returnInfo.isValid();
 			if (!returnValid) {

@@ -1,4 +1,4 @@
-package com.mawen.think.in.spring.data.redis.advanced.interceptor.support;
+package com.mawen.think.in.spring.data.redis.advanced.core;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import com.mawen.think.in.spring.data.redis.advanced.support.Collectable;
+import com.mawen.think.in.spring.data.redis.advanced.core.domain.BatchCacheableParamInfo;
+import com.mawen.think.in.spring.data.redis.advanced.core.support.Collectable;
 import lombok.Data;
 
 import org.springframework.core.convert.converter.Converter;

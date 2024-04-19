@@ -1,8 +1,10 @@
-package com.mawen.think.in.spring.data.redis.advanced.interceptor.support;
+package com.mawen.think.in.spring.data.redis.advanced.core;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import com.mawen.think.in.spring.data.redis.advanced.core.domain.BatchCacheableMethodInfo;
 
 /**
  * @author <a href="1181963012mw@gmail.com">mawen12</a>
