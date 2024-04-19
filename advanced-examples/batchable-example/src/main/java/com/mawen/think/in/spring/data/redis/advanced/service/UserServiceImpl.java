@@ -2,6 +2,7 @@ package com.mawen.think.in.spring.data.redis.advanced.service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import com.mawen.think.in.spring.data.redis.advanced.annotation.BatchCacheable;
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService {
 			new User(5L, "Jack", 70)
 	);
 
-	@BatchCacheable(key = "mawen", argIndex = 0, type = IBase.class)
+	@BatchCacheable(key = "mawen", argIndex = 0, timeout = 20, unit = TimeUnit.SECONDS, type = IBase.class)
 	public List<User> getUser(List<Long> ids) {
 		return users.stream().filter(user -> ids.contains(user.getId())).collect(Collectors.toList());
 	}

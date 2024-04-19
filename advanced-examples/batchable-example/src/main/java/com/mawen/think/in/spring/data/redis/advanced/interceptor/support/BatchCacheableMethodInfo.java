@@ -2,12 +2,14 @@ package com.mawen.think.in.spring.data.redis.advanced.interceptor.support;
 
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import com.mawen.think.in.spring.data.redis.advanced.annotation.BatchCacheable;
 import com.mawen.think.in.spring.data.redis.advanced.interceptor.parser.KeyParser;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
@@ -21,7 +23,12 @@ public class BatchCacheableMethodInfo<T> {
 
 	private final Method method;
 
+	private final String methodShortName;
+
 	private final BatchCacheable batchCacheable;
+
+	@Nullable
+	private final Expiration expiration;
 
 	private final BatchCacheableParamInfo paramInfo;
 
@@ -32,7 +39,9 @@ public class BatchCacheableMethodInfo<T> {
 		Assert.isTrue(method.isAnnotationPresent(BatchCacheable.class), () -> String.format("Method [%s] must be annotated with @BatchCacheable", method));
 
 		this.method = method;
+		this.methodShortName = extractMethodShortName();
 		this.batchCacheable = method.getAnnotation(BatchCacheable.class);
+		this.expiration = extractExpiration();
 		this.paramInfo = new BatchCacheableParamInfo(method, extractCacheParamIndex());
 		this.returnInfo = new BatchCacheableReturnInfo<>(method, batchCacheable.type());
 	}
@@ -58,11 +67,11 @@ public class BatchCacheableMethodInfo<T> {
 		if (log.isTraceEnabled()) {
 			boolean paramValid = paramInfo.isValid();
 			if (!paramValid) {
-				log.trace("Method [{}] has invalid parameters index[{}]", method.toString(), paramInfo.getParamIndex());
+				log.trace("Method [{}] has invalid parameters index[{}]", methodShortName, paramInfo.getParamIndex());
 			}
 			boolean returnValid = returnInfo.isValid();
 			if (!returnValid) {
-				log.trace("Method [{}] has invalid return type [{}] and parser [{}]", method.toString(), returnInfo.getReturnType(), returnInfo.getKeyParser());
+				log.trace("Method [{}] has invalid return type [{}] and parser [{}]", methodShortName, returnInfo.getReturnType(), returnInfo.getKeyParser());
 			}
 
 			return paramValid && returnValid;
@@ -74,5 +83,31 @@ public class BatchCacheableMethodInfo<T> {
 		int index = batchCacheable.argIndex();
 		int parameterCount = method.getParameterCount();
 		return index < 0 || index >= parameterCount ? -1 : index;
+	}
+
+	private String extractMethodShortName() {
+		StringBuilder builder = new StringBuilder()
+				.append(method.getDeclaringClass().getSimpleName())
+				.append('.')
+				.append(method.getName())
+				.append('(');
+
+		for (Class<?> parameterType : method.getParameterTypes()) {
+			builder.append(parameterType.getTypeName());
+		}
+
+		builder.append(')');
+
+		return builder.toString();
+	}
+
+	private Expiration extractExpiration() {
+		long timeout = batchCacheable.timeout();
+		TimeUnit unit = batchCacheable.unit();
+		if (timeout <= 0) {
+			return null;
+		}
+
+		return Expiration.from(timeout, unit);
 	}
 }

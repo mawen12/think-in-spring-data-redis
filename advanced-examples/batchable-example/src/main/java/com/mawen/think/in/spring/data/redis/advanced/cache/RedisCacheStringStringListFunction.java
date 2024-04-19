@@ -17,12 +17,16 @@ public class RedisCacheStringStringListFunction<U> extends AbstractRedisCacheStr
 
 	private final Function<String, String> keyConverter;
 
+	private final String identifier;
+
 	public RedisCacheStringStringListFunction(Function<Collection<String>, List<String>> redisMGetter,
 			Consumer<Map<String, String>> redisMSetter,
 			Class<U> uClass,
-			Function<String, String> keyConverter) {
+			Function<String, String> keyConverter,
+			String identifier) {
 		super(redisMGetter, redisMSetter, uClass);
 		this.keyConverter = keyConverter;
+		this.identifier = identifier;
 	}
 
 	@Override
@@ -38,5 +42,10 @@ public class RedisCacheStringStringListFunction<U> extends AbstractRedisCacheStr
 	@Override
 	Function<String, String> formatKey() {
 		return keyConverter;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return identifier;
 	}
 }

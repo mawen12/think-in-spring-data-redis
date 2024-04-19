@@ -27,9 +27,18 @@ public interface ListFunction<T, R> extends SingleFunction<List<T>, List<R>> {
 
 			if (cacheResult.size() == ts.size()) {
 				if (log.isTraceEnabled()) {
-					log.trace("");
+					log.trace("{} Cache Hit All! Key size: {}.", getIdentifier(), cacheResult.size());
 				}
 				return cacheResult;
+			}
+
+			if (log.isTraceEnabled()) {
+				if (cacheResult.isEmpty()) {
+					log.trace("{} Cache Miss! Key size: {}.", getIdentifier(), ts.size());
+				}
+				else {
+					log.trace("{} Cache Hit Part! Hit Key size: {}, Miss Key Size: {}.", getIdentifier(), cacheResult.size(), ts.size() - cacheResult.size());
+				}
 			}
 
 			Set<T> cacheKeys = cacheResult.stream().map(uniqueKeyGetter).collect(Collectors.toSet());
@@ -40,6 +49,10 @@ public interface ListFunction<T, R> extends SingleFunction<List<T>, List<R>> {
 			return Stream.of(cacheResult, dbResult).filter(Objects::nonNull).flatMap(Collection::stream).toList();
 		};
 	}
+
+	default String getIdentifier() {
+		return null;
+	};
 
 	static <T, R> Function<List<T>, List<R>> of(ListFunction<T, R> getter, Function<List<T>, List<R>> fallbackGetter, Function<R, T> uniqueKeyGetter) {
 		return getter.compose(fallbackGetter, uniqueKeyGetter);

@@ -1,11 +1,5 @@
 package com.mawen.think.in.spring.data.redis.advanced.interceptor;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Function;
-
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -13,7 +7,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 /**
@@ -26,7 +20,7 @@ import org.springframework.stereotype.Component;
 public class BatchCacheableAspect {
 
 	@Autowired
-	private RedisTemplate<String, String> redisTemplate;
+	private StringRedisTemplate redisTemplate;
 
 	@Pointcut("@annotation(com.mawen.think.in.spring.data.redis.advanced.annotation.BatchCacheable)")
 	public void batchCacheableAnnotation() {

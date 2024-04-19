@@ -40,6 +40,7 @@ public abstract class AbstractRedisCacheStringStringListFunction<U> extends Cach
 				.stream()
 				.filter(Objects::nonNull)
 				.map(key -> deserializerGetter().apply(key, uClass))
+				.filter(Objects::nonNull)
 				.collect(Collectors.toList());
 	}
 
