@@ -1,7 +1,6 @@
 package com.mawen.think.in.spring.data.redis.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.mawen.think.in.spring.data.redis.pojo.User;
 import lombok.RequiredArgsConstructor;

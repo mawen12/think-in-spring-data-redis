@@ -1,6 +1,5 @@
 package com.mawen.think.in.spring.data.redis.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mawen.think.in.spring.data.redis.pojo.User;
 import com.mawen.think.in.spring.data.redis.util.JsonUtil;
 

@@ -6,7 +6,6 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.mawen.think.in.spring.data.redis.core.CacheableListFunction;
 import com.mawen.think.in.spring.data.redis.core.ListFunction;
 import com.mawen.think.in.spring.data.redis.pojo.User;
 
