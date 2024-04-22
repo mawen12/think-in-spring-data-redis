@@ -11,7 +11,7 @@ import lombok.Data;
  * @since 2024/4/18
  */
 @Data
-class BatchCacheableParamInfo {
+public class BatchCacheableParamInfo {
 
 	private final int paramIndex;
 

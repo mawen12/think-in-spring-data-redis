@@ -1,4 +1,4 @@
-package com.mawen.think.in.spring.data.redis.advanced.core.interceptor;
+package com.mawen.think.in.spring.data.redis.advanced.core;
 
 import java.util.HashMap;
 import java.util.Map;

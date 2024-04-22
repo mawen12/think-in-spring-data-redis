@@ -5,7 +5,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
 
-import com.mawen.think.in.spring.data.redis.advanced.core.interceptor.TypeParserRunner;
+import com.mawen.think.in.spring.data.redis.advanced.core.TypeParserRunner;
 import com.mawen.think.in.spring.data.redis.advanced.core.parser.KeyParser;
 import lombok.Getter;
 

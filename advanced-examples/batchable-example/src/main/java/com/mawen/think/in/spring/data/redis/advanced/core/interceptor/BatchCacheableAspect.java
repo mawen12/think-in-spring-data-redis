@@ -1,5 +1,6 @@
 package com.mawen.think.in.spring.data.redis.advanced.core.interceptor;
 
+import com.mawen.think.in.spring.data.redis.advanced.core.RedisCacheInvoker;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

@@ -1,4 +1,4 @@
-package com.mawen.think.in.spring.data.redis.advanced.core.interceptor;
+package com.mawen.think.in.spring.data.redis.advanced.core;
 
 import java.util.Collection;
 import java.util.List;
@@ -7,8 +7,6 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import com.mawen.think.in.spring.data.redis.advanced.core.BatchCacheableMethodInfoFactory;
-import com.mawen.think.in.spring.data.redis.advanced.core.ParametersValueHolder;
 import com.mawen.think.in.spring.data.redis.advanced.core.cache.RedisCacheStringStringListFunction;
 import com.mawen.think.in.spring.data.redis.advanced.core.domain.BatchCacheableMethodInfo;
 import com.mawen.think.in.spring.data.redis.core.ListFunction;
