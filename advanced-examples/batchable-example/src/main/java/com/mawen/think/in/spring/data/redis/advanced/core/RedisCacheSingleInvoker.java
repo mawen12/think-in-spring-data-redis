@@ -22,6 +22,7 @@ public class RedisCacheSingleInvoker<R> extends AbstractRedisCacheInvoker {
 
 	private BiConsumer<String, String> redisSetter;
 
+
 	protected RedisCacheSingleInvoker(ProceedingJoinPoint joinPoint, StringRedisTemplate redisTemplate) {
 		super(joinPoint, redisTemplate);
 
@@ -30,8 +31,13 @@ public class RedisCacheSingleInvoker<R> extends AbstractRedisCacheInvoker {
 		this.redisSetter = (key, value) -> redisTemplate.opsForValue().set(key, value);
 	}
 
+
 	@Override
 	public Object invoke() throws Throwable {
+
+		if (!methodInfo.isValid()) {
+			return joinPoint.proceed();
+		}
 
 		Function<Object, R> function = CacheableSingleFunction.of(getRedisCacheCall(), getMethodCall());
 

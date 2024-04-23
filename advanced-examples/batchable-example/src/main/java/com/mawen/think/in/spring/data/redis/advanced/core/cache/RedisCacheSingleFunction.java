@@ -19,7 +19,7 @@ public class RedisCacheSingleFunction<V> extends CacheableSingleFunction<Object,
 
 	private final Function<Object, String> composeKeySerializer;
 
-	private final Function<String, V> valueSerializer;
+	private final Function<String, V> valueDeserializer;
 
 	private final String identifier;
 
@@ -27,13 +27,13 @@ public class RedisCacheSingleFunction<V> extends CacheableSingleFunction<Object,
 	public RedisCacheSingleFunction(Function<String, String> redisGetter, BiConsumer<String, String> redisSetter,
 			Function<Object, String> commonSerializer,
 			Function<String, String> keyFormatter,
-			Function<String, V> valueSerializer,
+			Function<String, V> valueDeserializer,
 			String identifier) {
 		this.redisGetter = redisGetter;
 		this.redisSetter = redisSetter;
 		this.commonSerializer = commonSerializer;
 		this.composeKeySerializer = commonSerializer.andThen(keyFormatter);
-		this.valueSerializer = valueSerializer;
+		this.valueDeserializer = valueDeserializer;
 		this.identifier = identifier;
 	}
 
@@ -44,7 +44,7 @@ public class RedisCacheSingleFunction<V> extends CacheableSingleFunction<Object,
 			String redisKey = composeKeySerializer.apply(key);
 
 			String json = redisGetter.apply(redisKey);
-			return valueSerializer.apply(json);
+			return valueDeserializer.apply(json);
 		};
 	}
 

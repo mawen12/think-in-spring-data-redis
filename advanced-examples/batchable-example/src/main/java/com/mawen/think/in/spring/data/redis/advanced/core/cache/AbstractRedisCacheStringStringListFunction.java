@@ -45,9 +45,9 @@ public abstract class AbstractRedisCacheStringStringListFunction<U> extends Cach
 	}
 
 	@Override
-	public List<U> cache(List<U> ts, Function<U, String> uniqueKeyGetter) {
-		redisMSetter.accept(ts.stream().collect(Collectors.toMap(uniqueKeyGetter.andThen(formatKey()), serializerGetter())));
-		return ts;
+	public List<U> cache(List<U> values, Function<U, String> uniqueKeyGetter) {
+		redisMSetter.accept(values.stream().collect(Collectors.toMap(uniqueKeyGetter.andThen(formatKey()), serializerGetter())));
+		return values;
 	}
 
 	abstract Function<U, String> serializerGetter();

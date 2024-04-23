@@ -48,9 +48,9 @@ public class MapCacheListFunction<T, R> extends CacheableListFunction<T, R> {
 	}
 
 	@Override
-	public List<R> cache(List<R> ts, Function<R, T> uniqueKeyGetter) {
-		ts.forEach(element -> cache.put(uniqueKeyGetter.apply(element), element));
+	public List<R> cache(List<R> values, Function<R, T> uniqueKeyGetter) {
+		values.forEach(element -> cache.put(uniqueKeyGetter.apply(element), element));
 
-		return ts;
+		return values;
 	}
 }

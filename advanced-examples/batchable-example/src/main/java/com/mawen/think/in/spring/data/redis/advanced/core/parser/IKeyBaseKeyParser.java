@@ -6,6 +6,8 @@ import java.util.function.Function;
 
 import com.mawen.think.in.spring.data.redis.advanced.pojo.IKeyBase;
 
+import org.springframework.lang.Nullable;
+
 /**
  * @author <a href="1181963012mw@gmail.com">mawen12</a>
  * @since 2024/4/18
@@ -14,8 +16,8 @@ public enum IKeyBaseKeyParser implements KeyParser<IKeyBase<Serializable>, Seria
 	INSTANCE;
 
 	@Override
-	public boolean canParse(Type type) {
-		return IKeyBase.class.isAssignableFrom((Class<?>) type);
+	public boolean canParse(@Nullable Type type) {
+		return type != null && IKeyBase.class.isAssignableFrom((Class<?>) type);
 	}
 
 	@Override

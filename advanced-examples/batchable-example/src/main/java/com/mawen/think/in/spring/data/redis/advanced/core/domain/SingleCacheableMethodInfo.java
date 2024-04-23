@@ -44,7 +44,7 @@ public class SingleCacheableMethodInfo<T> extends AbstractCacheableMethodInfo<T>
 	}
 
 	@Override
-	boolean isValid() {
+	public boolean isValid() {
 		return false;
 	}
 

@@ -38,7 +38,7 @@ class BatchCacheableReturnInfo<T> {
 
 	public boolean isValid() {
 		return Collection.class.isAssignableFrom(returnType)
-				&& keyParser != null && keyParser.canParse(rawReturnType);
+				&& keyParser != null && rawReturnType != null && keyParser.canParse(rawReturnType);
 	}
 
 	private Class<T> extractActualType(Type type) {

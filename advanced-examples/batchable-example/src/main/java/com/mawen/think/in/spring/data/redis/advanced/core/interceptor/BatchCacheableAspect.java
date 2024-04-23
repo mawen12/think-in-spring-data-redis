@@ -1,5 +1,6 @@
 package com.mawen.think.in.spring.data.redis.advanced.core.interceptor;
 
+import com.mawen.think.in.spring.data.redis.advanced.core.RedisCacheBatchInvoker;
 import com.mawen.think.in.spring.data.redis.advanced.core.RedisCacheInvoker;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -37,7 +38,9 @@ public class BatchCacheableAspect {
 			log.trace("Into BatchCacheableAspect......");
 		}
 
-		RedisCacheInvoker<Object> invoker = new RedisCacheInvoker<>(joinPoint, redisTemplate);
+//		RedisCacheInvoker<Object> invoker = new RedisCacheInvoker<>(joinPoint, redisTemplate);
+
+		RedisCacheBatchInvoker<Object> invoker = new RedisCacheBatchInvoker<>(joinPoint, redisTemplate);
 
 		return invoker.invoke();
 	}
